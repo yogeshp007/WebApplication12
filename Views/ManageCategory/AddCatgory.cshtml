@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "AddCatgory";
+}
+
+<h2>Add Catgory</h2>
+<br/>
+
+
+<form method="post" action="AddCatgory">
+    <div class="form-group">
+        <label for="catName">Category Name</label>
+        <input type="text" class="form-control" id="catName" name="catName" placeholder="Enter Category Name">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+<br/>
+<hr/>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Category</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.categoryList)
+        {
+            <tr>
+                <td>
+                    @item.catId
+                </td>
+                <td>
+                    @item.catName
+                </td>
+                <td>
+                    <a href="EditCategory/@item.catId">Edit</a>
+                    <a href="DeleteCategory/@item.catId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
