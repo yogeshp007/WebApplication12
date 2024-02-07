@@ -13,6 +13,10 @@ namespace WebApplication1.Controllers
 
         public ActionResult AddCatgory()
         {
+            if (Session["info"] == null)
+            {
+                Session["info"] = new tblCategory();
+            }
             ViewBag.categoryList = db.tblCategories;
             return View();
         }
@@ -21,14 +25,26 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public ActionResult AddCatgory(FormCollection fc)
         {
-            tblCategory category = new tblCategory()
+            var id = Convert.ToInt32(fc["catId"]);
+            if (id > 0)
             {
-                catName = fc["catName"]
-            };
+                tblCategory category = db.tblCategories.Find(id);
 
-            db.tblCategories.Add(category);
-            db.SaveChanges();
+                category.catName = fc["catName"];
+                db.SaveChanges();
+            }
+            else
+            {
+                tblCategory category = new tblCategory()
+                {
+                    catName = fc["catName"]
+                };
 
+                db.tblCategories.Add(category);
+                db.SaveChanges();
+            }
+
+            Session["info"] = new tblCategory();
             ViewBag.categoryList = db.tblCategories;
 
             return View();
@@ -37,10 +53,21 @@ namespace WebApplication1.Controllers
         public ActionResult DeleteCategory(int id)
         {
             tblCategory category = db.tblCategories.Find(id);
-            if(category != null)
+            if (category != null)
             {
                 db.tblCategories.Remove(category);
                 db.SaveChanges();
+            }
+
+            return RedirectToAction("AddCatgory");
+        }
+
+        public ActionResult EditCategory(int id)
+        {
+            tblCategory category = db.tblCategories.Find(id);
+            if (category != null)
+            {
+                Session["info"] = category;
             }
 
             return RedirectToAction("AddCatgory");

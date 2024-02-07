@@ -1,18 +1,21 @@
 ﻿
 @{
     ViewBag.Title = "AddCatgory";
+
+    var categoryInfo = Session["info"] as WebApplication1.Models.tblCategory;
+    var btnText = categoryInfo.catId > 0 ? "Update" : "Submit";
 }
 
 <h2>Add Catgory</h2>
 <br/>
 
-
 <form method="post" action="AddCatgory">
+    <input type="hidden" name="catId" value="@categoryInfo.catId" />
     <div class="form-group">
         <label for="catName">Category Name</label>
-        <input type="text" class="form-control" id="catName" name="catName" placeholder="Enter Category Name">
+        <input type="text" class="form-control" id="catName" name="catName" value="@categoryInfo.catName" placeholder="Enter Category Name">
     </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn-default">@btnText</button>
 </form>
 
 <br/>
